@@ -1,0 +1,67 @@
+<!DOCTYPE html >
+<html>
+<head>
+<title>LOGIN</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=0.25,maximum scale =2.5" /> 
+<link rel="stylesheet" href="./js/jquery.mobile-1.2.0.min.css"> 
+ <script src="./js/jquery-1.8.2.min.js"></script>  
+<script src="./js/jquery.mobile-1.2.0.min.js"></script>    
+
+
+<script language="javascript">
+    function getinfo(){  
+        console.log("got into the function")
+var pass=document.getElementById("password").value;
+var x=document.getElementById("username").value;
+
+var xmlhttp;
+if(window.XMLHttpRequest){ 
+xmlhttp = new XMLHttpRequest(); console.log("XML HTTP REQUEST CREATED")  } 
+else {console.log("NO XML HTTP REQUEST IN THIS PAGE")       }
+xmlhttp.onreadystatechange = function(){
+    console.log("ON READY STATE")
+if (xmlhttp.readyState == 4 & xmlhttp.status ==200)
+document.getElementById("jax").innerHTML = xmlhttp.responseText;
+    //krmel a3melo redirect eza ken l username wl password mazbutin
+        if (xmlhttp.responseText.charAt(0)=="w"){
+            console.log("got in the if statement ")
+                window.location.href="./index.php";
+
+        }
+}
+xmlhttp.open("GET","./sn.php?username="+x+"&password="+pass,false);
+xmlhttp.send();
+}
+
+</script>
+
+</head>
+<body id="body_bg">
+<div align="center">
+<h3>LOGIN. </h3> 
+<div id="jax"></div>
+        <table border="0.5" >
+            <tr>
+                <td><label for="username">User Name</label></td>
+                <td><input type="text" name="username" id="username"></td>
+            </tr>
+            <tr>
+                <td><label for="password">Password</label></td>
+                <td><input type="password" name="password" id="password"></input></td>
+            </tr>
+			
+            <tr>
+				
+                <td> &nbsp;&nbsp; &nbsp;</td><td><input type="button" value="login" onclick="getinfo()"></input>  </td>
+             </tr><tr> <td>&nbsp;</td> <td>  &nbsp; &nbsp;&nbsp; &nbsp;
+                <a href="#popupBasic" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="pop">Forget Password!</a>
+                <div data-role="popup" id="popupBasic">
+                <p>Please Contact The Admin To Reset You Password.</p>
+                </div>     </tr>   </table>
+    </form>
+   
+        </div>
+        
+      
+</body>
+</html>
