@@ -452,6 +452,7 @@ xmlhttp.send();
 <script language="javascript">
     //to print the array of what reserved 
 function showLocalStorage(therowd){
+/*   THE OLD FUNCTION
     console.log("got into the function with"+therowd)
     var orderArray= new Array();
     //returning the json String to array
@@ -463,6 +464,22 @@ function showLocalStorage(therowd){
               document.getElementById('xx'+therowd).innerHTML += "<br>ProductCode: "+orderArray[i][1] + " Quantity: "+orderArray[i][2];
             //    console.log('productCode: '+orderArray[i][1]+" qty :"+orderArray[i][2])
                                 }   
+
+*/
+
+
+console.log("got into the function with"+therowd)
+    var orderArray= new Array();
+    //returning the json String to array
+    orderArray= JSON.parse(localStorage.getItem(therowd));
+    document.getElementById('xx'+therowd).innerHTML  ="<input type='button' value='Show What Reserved.' onclick='showLocalStorage("+therowd+")' > </input>"
+    for(i=1 ; i<orderArray.length  ; i++)
+            if(orderArray[i][0] ==therowd){
+              document.getElementById('xx'+therowd).innerHTML += "<br>ProductCode: "+orderArray[i][1] + " Quantity: "+orderArray[i][2];
+            //    console.log('productCode: '+orderArray[i][1]+" qty :"+orderArray[i][2])
+                                }   
+
+
                                     }
 // Make Multiple Order For One Customer
 

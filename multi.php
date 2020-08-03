@@ -29,9 +29,12 @@ global $WorkerId ,$ClientId ;
     window['rownb'] =0;
     var rwid = <?php echo $_GET['row']; ?>    ;
     var cltphone = <?php echo $_GET['client']; ?> ;
-    let confirmed = [
+   // if (typeof confirmed === 'undefined'){
+      let confirmed = [
     [rwid, cltphone]
-];
+]  || '';
+    
+    
 //var seized = new Array();
 if(close == 0){ 
   window.onbeforeunload = function() {
@@ -607,6 +610,10 @@ document.getElementById("fprc").innerHTML=Allprice ;
 //add the product no and the qty to the array confirmed
 confirmed.push([rwid,RowProductCode,RowQuantity]);
 localStorage.setItem("ordrz" ,JSON.stringify(confirmed));
+
+
+localStorage.setItem(rwid ,JSON.stringify(confirmed))
+console.log("The Row Product Code Is : "+rwid)
 } 
 
 
