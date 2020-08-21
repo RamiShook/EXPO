@@ -4,26 +4,26 @@
 
 
 header("Refresh: 15;"); 
-include('info.php');
+include('../info.php');
 if (!isset($_SESSION['type'])){
-    HEADER("LOCATION: ./ajx.html");
+    HEADER("LOCATION: ../ajx.html");
 }
 ?>
 <html>
   <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="css/index.css">
-  <link rel="stylesheet" type="text/css" href="css/pic.css">
-		<link rel="stylesheet" href="css/material.min.css">
-<script src="js/material.min.js"></script>
-<script src="js/myscripts.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/index.css">
+  <link rel="stylesheet" type="text/css" href="../css/pic.css">
+		<link rel="stylesheet" href="../css/material.min.css">
+<script src="../js/material.min.js"></script>
+<script src="../js/myscripts.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="./assets/bootstrap.css">
-<script type="text/javascript" src="./assets/jquery.js"></script>
-<script type="text/javascript" src="./assets/bootstrap.js"></script>
-<script type="text/javascript" src="./assets/bootbox.min.js"></script>
-<script type="text/javascript" src="./assets/sorttable.js"></script> 
+<link rel="stylesheet" type="text/css" href="../assets/bootstrap.css">
+<script type="text/javascript" src="../assets/jquery.js"></script>
+<script type="text/javascript" src="../assets/bootstrap.js"></script>
+<script type="text/javascript" src="../assets/bootbox.min.js"></script>
+<script type="text/javascript" src="../assets/sorttable.js"></script> 
   </head>
   <body>
     <!-- Always shows a header, even in smaller screens. -->
@@ -39,12 +39,12 @@ if (!isset($_SESSION['type'])){
       <span class="mdl-layout-title"><div id="meee"> <a href='index.php'> EXPO</a></div></span>
         <nav class="mdl-navigation">
         <?php if(isset($_SESSION['type']) && ($_SESSION['type']=="worker")){
-          include ('DefUserOptions.php');
+          include ('../DefUserOptions.php');
         }        
            else if(isset($_SESSION['type']) && ($_SESSION['type']=="admin")){
-            include('AdminOptions.php');
+            include('../AdminOptions.php');
           }else if(isset($_SESSION['type'])&& ($_SESSION['type']=="Fulfillment") ){
-            include('Fulfillment/FulfOptions.php');
+            include('FulfOptions.php');
         
           }else{
 echo"You Need To Login First!";
@@ -62,13 +62,13 @@ echo"You Need To Login First!";
 	});
 </script> 
      <div class="preload">
-<div id="mydiv" align="center"><img src="assets/wait.gif" class="ajax-loader"></div>   </div>
+<div id="mydiv" align="center"><img src="../assets/wait.gif" class="ajax-loader"></div>   </div>
 		<div align="center">
         Search By Code:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Enter The Code.." title="Type The Product Code">
         &nbsp; &nbsp; &nbsp;Search By Name: <input type="text" id="NameInput" onkeyup="SearchByName()" placeholder="Search By Name.." title="Type The Product Name">
 
     <?PHP
-    include("./config.php");
+    include("../config.php");
      $q = mysqli_query($connection, "SELECT * FROM products")or die("error");
      $t = mysqli_num_rows($q);
 
@@ -112,7 +112,7 @@ echo"You Need To Login First!";
                   <td>'.$row['product_Quantity'].'</td>
                   <td>'.$row['product_Price'].'</td>
                   <td>'.$row['product_Note'].'</td>
-                  <td> <img src= "'.$row['product_photo_path'].'"  class="thumbnailz" height="40px" width="100px" alt="No Available Photo" onerror="this.onerror=null; this.remove();"></img></td>
+                  <td> <img src= "../'.$row['product_photo_path'].'"  class="thumbnailz" height="40px" width="100px" alt="No Available Photo" onerror="this.onerror=null; this.remove();"></img></td>
                   <td> <input type="button" id='.$row['product_Code'].' onclick="dss(this.id)" value="Copy Product Code">
 
                   <td>'; }

@@ -92,7 +92,7 @@ echo"You Need To Login First!";
         <div class="preload" align="center">
   
      <div class="preload">
-<div id="mydiv" align="center"><img src="assets/construct.gif" class="ajax-loader"></div>   </div>  </div>
+<div id="mydiv" align="center"><img src="../assets/construct.gif" class="ajax-loader"></div>   </div>  </div>
 	
 		<div align="center">
       Codded By Rami Shook & Mahmoud Baddour. <br>

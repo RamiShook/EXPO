@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (!isset($_SESSION['type'])){
+    HEADER("LOCATION: ./ajx.html");
+}
 
  if (isset($_GET['profile'])) {
 	 if (isset($_SESSION['USERNAME'])) 

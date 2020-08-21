@@ -68,6 +68,8 @@ echo"You Need To Login First!";
     $wkid=$_SESSION['uid'];
      $q = mysqli_query($connection, "select multiple_reserved_product.multiple_reserve_id,
      multiple_reserved_product.quantity ,
+     multiple_reserved_product.multiple_reserve_product_id,
+    
      multiple_reserved_product.price ,
      multiple_reserved.reserve_date ,
      multiple_reserved.reserve_full_price ,
@@ -78,7 +80,7 @@ echo"You Need To Login First!";
      INNER JOIN clients ON clients.client_id=multiple_reserved.multiple_reserve_client_id
      INNER JOIN products ON products.product_id = multiple_reserve_product_id
      WHERE multiple_reserved.multiple_reserve_worker_id = $wkid AND 
-     multiple_reserved.multiple_reserve_status= 'Pending' ORDER BY multiple_reserved.reserve_date DESC ")or die("error");
+     multiple_reserved.multiple_reserve_status= 'Sended' ORDER BY multiple_reserved.reserve_date DESC ")or die("error");
      $t = mysqli_num_rows($q);
 
      $record_count = mysqli_num_rows($q);
@@ -87,7 +89,7 @@ echo"You Need To Login First!";
     <div class="">
         <div class="panel panel-default">
           <div class="panel-heading no-collapse">  <center>Total Complex Reservations: <span class="label label-warning" id="rescc"></span>
-           <br><span class="label label-warning"><b> Note That All The Reseravtions Here Is Not Confirmed(Not Sended To Fulfillment) </b></span>
+           <br><span class="label label-warning"><b> Note That All The Orders Here Is Confirmed By Fulfillment And Sended To The Client </b></span>
           </center></div>
 
 
@@ -103,6 +105,7 @@ echo"You Need To Login First!";
                   <th>Product Name</th>
                   <th>Quantity</th>
                   <th>Price</th>
+                  <th>Replacement/return</th>
 
 
 
@@ -140,7 +143,10 @@ $PriceCalc = 0;
                   <td>'.$row['Product_Name'].'</td>
                   <td>'.$row['quantity'].'</td>
                   <td>'.$row['price'].'</td>
-                
+                  <td> <input type="button" value="Return!"></input> &nbsp &nbsp
+                        <input type="button" resid='.$row['multiple_reserve_id'].' 
+                        respid='.$row['multiple_reserve_product_id'].' value="Replacement" onclick="Replacement('.$row['multiple_reserve_id'].','.$row['multiple_reserve_product_id'].','.$row['product_Code'].','.$row['quantity'].')"> </input>
+                        
 
                   <td>'; 
                   
@@ -151,11 +157,11 @@ $PriceCalc = 0;
                       $rowcounter=1;
                       $PriceCalc=0;
                       $mutiplereserveid = $row['multiple_reserve_id'];
-                    echo ' <td> <input type="button" id="'.$mutiplereserveid.'" onclick="del(this.id,this)" value="Delete This Reservation"></input> 
-                    <br> <br> <br><input type="button" id='.$row['multiple_reserve_id'].' onclick="confirmrv(this.id,this)" value="Confirm" ></td></tr>
-                    ';
-                      echo "<script>document.getElementById('rescc').innerHTML=$rescounter </script>";
-                      ++$rescounter ;
+                   // echo ' <td> <input type="button" id="'.$mutiplereserveid.'" onclick="del(this.id,this)" value="Delete This Reservation"></input> 
+                   // <br> <br> <br><input type="button" id='.$row['multiple_reserve_id'].' onclick="edit(this.id,this)" value="Edit This Order" ></td></tr>
+                    //';
+                     // echo "<script>document.getElementById('rescc').innerHTML=$rescounter </script>";
+                      //++$rescounter ;
 
 
                   }else{
@@ -201,24 +207,16 @@ removeRow(btnid,ths);
     }
                   </script>
 <script>
-function confirmrv(x,ths){
-  //send to NewFunctions To Change The Order Status
-  ths.disabled=true;
-  ths.value="Confirmed"
-  oid=x;
-  var xmlhttp;
-if(window.XMLHttpRequest){ 
-xmlhttp = new XMLHttpRequest(); 
 
-}
-else {console.log("NO XML HTTP REQUEST IN THIS PAGE")       }
-xmlhttp.onreadystatechange = function(){
-if (xmlhttp.readyState == 4 & xmlhttp.status ==200)
-console.log("On Ready State Change")
-}
-xmlhttp.open("GET","./NewFunctions.php?changeToFf="+oid,false);
-xmlhttp.send();
+  function Replacement(rid,rpid,pcode,qt){
 
+
+window.open("./ReplacementManipulate.php?rid="+rid+"&rpid="+rpid+"&productCode="+pcode+"&qty="+qt,"_blank");     
+  }
+function edit(x,ths){
+  //Opening New Tab To Edit The Wanted Reservation
+  
+  
   }
 
 

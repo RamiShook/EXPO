@@ -35,6 +35,10 @@ if ($rows==1){
 				$_SESSION["type"]=$any["worker_Type"];
 				$_SESSION["uid"]=$any["worker_id"];
 	}
+	if($_SESSION['type']=="Fulfillment"){
+		header("refresh:2; url=/Fulfillment/Fulfillment.php");
+
+	}else
 	header("refresh:2; url=/index.php");
 }
 }else{

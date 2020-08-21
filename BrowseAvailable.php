@@ -41,6 +41,9 @@ if (!isset($_SESSION['type'])){
         }        
            else if(isset($_SESSION['type']) && ($_SESSION['type']=="admin")){
             include('AdminOptions.php');
+          }else if(isset($_SESSION['type'])&& ($_SESSION['type']=="Fulfillment") ){
+            include('Fulfillment/FulfOptions.php');
+        
           }else{
 echo"You Need To Login First!";
          }
@@ -57,7 +60,7 @@ echo"You Need To Login First!";
 	});
 </script> 
      <div class="preload">
-<div id="mydiv" align="center"><img src="assets/wait.gif" class="ajax-loader"></div>   </div>
+<div id="mydiv" align="center"><img src="../assets/wait.gif" class="ajax-loader"></div>   </div>
 		<div align="center">
         Search By Code:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Enter The Code.." title="Type The Product Code">
         &nbsp; &nbsp; &nbsp;Search By Name: <input type="text" id="NameInput" onkeyup="SearchByName()" placeholder="Search By Name.." title="Type The Product Name">
