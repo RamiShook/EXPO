@@ -133,6 +133,7 @@ $PriceCalc = 0;
 
     $PriceCalc = $PriceCalc+ $row['price'] ;
 
+    $TEMPPCODE=$row['product_Code'];
 
               echo '
               <tr id="tr'.$row['multiple_reserve_id'].'">
@@ -145,7 +146,7 @@ $PriceCalc = 0;
                   <td>'.$row['price'].'</td>
                   <td> <input type="button" value="Return!"></input> &nbsp &nbsp
                         <input type="button" resid='.$row['multiple_reserve_id'].' 
-                        respid='.$row['multiple_reserve_product_id'].' value="Replacement" onclick="Replacement('.$row['multiple_reserve_id'].','.$row['multiple_reserve_product_id'].','.$row['product_Code'].','.$row['quantity'].')"> </input>
+                        respid='.$row['multiple_reserve_product_id'].' value="Replacement" onclick="Replacement('.$row['multiple_reserve_id'].','.$row['multiple_reserve_product_id'].',\''.$TEMPPCODE.'\','.$row['quantity'].')"> </input>
                         
 
                   <td>'; 

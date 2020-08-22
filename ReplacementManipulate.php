@@ -415,7 +415,7 @@ ele.setAttribute('hidden','true')
 
 // to print the product code and choosed quantity 
 function showOldProductDetails(){
-  document.getElementById("replacedpcode").innerHTML= <?php echo $_GET['productCode'] ;?> ;
+  document.getElementById("replacedpcode").innerHTML=" <?php echo $_GET['productCode'] ;?> ";
   document.getElementById("replacedqty").innerHTML= qty ;
 }
 
