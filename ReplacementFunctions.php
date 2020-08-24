@@ -42,6 +42,9 @@ mysqli_query($connection,$q3)or die(mysqli_error($connection));
 // Change The Order Status In Multiple reserve
 $q4="UPDATE multiple_reserved SET multiple_reserve_status='Replacement' WHERE multiple_reserve_id=$odid ";
 mysqli_query($connection,$q4)or die(mysqli_error($connection));
+//Decrease The New ordered Product Quantity from products
+$qDecrease = "UPDATE products SET product_Quantity = product_Quantity - '$newqty' WHERE product_id='$ProductId' ";
+mysqli_query($connection,$qDecrease)or die(mysqli_error($connection));
 
 }
 

@@ -2,18 +2,18 @@
 <?php
 
 
-include('info.php');
-include('config.php');
+include('../info.php');
+include('../config.php');
 if (isset($_GET['logout'])){
   session_destroy();
   Echo "Logged Out , Please Login Again To Get All The Site Feature's.";
-  header("Refresh: 3; url= ./ajx.html");
+  header("Refresh: 3; url= ../ajx.html");
 
 }
 
-if(isset($_SESSION['type']) && $_SESSION['type'] =="Fulfillment"){
+if(isset($_SESSION['type']) && $_SESSION['type'] !="Fulfillment"){
 
-  header("Refresh: 3; url= ./Fulfillment/Fulfillment.php");
+  header("Refresh: 3; url= ../index.php");
 
 }
 ?>
@@ -52,12 +52,12 @@ if(isset($_SESSION['type']) && $_SESSION['type'] =="Fulfillment"){
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-		<link rel="stylesheet" href="css/material.min.css">
-				<link rel="stylesheet" href="css/mysheet.css">
+        <link rel="stylesheet" type="text/css" href="../css/index.css">
+		<link rel="stylesheet" href="../css/material.min.css">
+				<link rel="stylesheet" href="../css/mysheet.css">
 
-<script src="js/material.min.js"></script>
-<script src="js/myscripts.js"></script>
+<script src="../js/material.min.js"></script>
+<script src="../js/myscripts.js"></script>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -74,13 +74,16 @@ if(isset($_SESSION['type']) && $_SESSION['type'] =="Fulfillment"){
          
       </header>
       <div class="mdl-layout__drawer">
-      <span class="mdl-layout-title"><div id="meee"> <a href='index.php'> EXPO</a></div></span>
+      <span class="mdl-layout-title"><div id="meee"> <a href='./index.php'> EXPO</a></div></span>
         <nav class="mdl-navigation">
         <?php if(isset($_SESSION['type']) && ($_SESSION['type']=="worker")){
-          include ('DefUserOptions.php');
+          include ('../DefUserOptions.php');
         }        
            else if(isset($_SESSION['type']) && ($_SESSION['type']=="admin")){
-            include('AdminOptions.php');
+            include('../AdminOptions.php');
+          }else if(isset($_SESSION['type'])&& ($_SESSION['type']=="Fulfillment") ){
+            include('FulfOptions.php');
+        
           }else{
 echo"You Need To Login First!";
          }

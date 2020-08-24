@@ -80,7 +80,7 @@ echo"You Need To Login First!";
      INNER JOIN clients ON clients.client_id=multiple_reserved.multiple_reserve_client_id
      INNER JOIN products ON products.product_id = multiple_reserve_product_id
      WHERE multiple_reserved.multiple_reserve_worker_id = $wkid AND 
-     multiple_reserved.multiple_reserve_status= 'Sended' ORDER BY multiple_reserved.reserve_date DESC ")or die("error");
+     multiple_reserved.multiple_reserve_status like '%Sended%' ORDER BY multiple_reserved.reserve_date DESC ")or die("error");
      $t = mysqli_num_rows($q);
 
      $record_count = mysqli_num_rows($q);
@@ -144,7 +144,7 @@ $PriceCalc = 0;
                   <td>'.$row['Product_Name'].'</td>
                   <td>'.$row['quantity'].'</td>
                   <td>'.$row['price'].'</td>
-                  <td> <input type="button" value="Return!"></input> &nbsp &nbsp
+                  <td> <input type="button" value="Return!" onlick="ReturnProduct("'.$row['multiple_reserve_id'].','.$row['multiple_reserve_product_id'].',\''.$TEMPPCODE.'\','.$row['quantity'].')"></input> &nbsp &nbsp
                         <input type="button" resid='.$row['multiple_reserve_id'].' 
                         respid='.$row['multiple_reserve_product_id'].' value="Replacement" onclick="Replacement('.$row['multiple_reserve_id'].','.$row['multiple_reserve_product_id'].',\''.$TEMPPCODE.'\','.$row['quantity'].')"> </input>
                         
@@ -208,18 +208,28 @@ removeRow(btnid,ths);
     }
                   </script>
 <script>
+function ReturnProduct(rid,rpid,pcode,qt){
+  var xmlhttp;
+if(window.XMLHttpRequest)
+xmlhttp = new XMLHttpRequest(); 
+
+
+xmlhttp.onreadystatechange = function(){
+if (xmlhttp.readyState == 4 & xmlhttp.status ==200)
+console.log("On Ready State Change")
+}
+xmlhttp.open("GET","./NewFunctions.php?ReturnOID="+rid+"&OPID="+rpid+"Opcode="+pcode+"Qty="+qt+"",false);
+xmlhttp.send();
+
+
+}
+
 
   function Replacement(rid,rpid,pcode,qt){
 
 
 window.open("./ReplacementManipulate.php?rid="+rid+"&rpid="+rpid+"&productCode="+pcode+"&qty="+qt,"_blank");     
   }
-function edit(x,ths){
-  //Opening New Tab To Edit The Wanted Reservation
-  
-  
-  }
-
 
 function myFunction() {
   var input, filter, table, tr, td, i, txtValue;

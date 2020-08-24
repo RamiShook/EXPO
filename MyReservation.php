@@ -77,7 +77,8 @@ echo"You Need To Login First!";
         reserve_Quantity,
         product_id,
         reserve_Price FROM products , reserved , clients
-        where reserve_worker_id = '$workeruid' AND reserve_product_id = products.product_id AND reserve_client_id = clients.client_id ")or die("error");
+        where reserve_worker_id = '$workeruid' AND reserve_product_id = products.product_id AND reserve_client_id = clients.client_id
+                                  AND reverse_Status = 'Pending' ")or die("error");
      $t = mysqli_num_rows($q);
 
      $record_count = mysqli_num_rows($q);
@@ -126,7 +127,7 @@ echo"You Need To Login First!";
 
 
                   <td> <input type="button" id='.$row['reserve_id'].' onclick="deleterv(this.id,'.$row['reserve_Quantity'].','.$row['product_id'].',this)" value="Delete">
-                  <td> <input type="button" id='.$row['reserve_id'].' onclick="confirmrv(this.id)" value="Confirm">
+                  <td> <input type="button" id='.$row['reserve_id'].' onclick="confirmrv(this.id,this)" value="Confirm">
 
                   </td>'; }
 
@@ -177,10 +178,26 @@ xmlhttp.send();
         var empTab = document.getElementById('productTable');
         empTab.deleteRow(oButton.parentNode.parentNode.rowIndex); // button -> td -> tr.
     }
-  function confirmrv(x){
-    alert("This Button Is Not Programmed ! \n")
+    function confirmrv(x,ths){
+  //send to NewFunctions To Change The Order Status
+  ths.disabled=true;
+  ths.value="Confirmed"
+  oid=x;
+  var xmlhttp;
+if(window.XMLHttpRequest){ 
+xmlhttp = new XMLHttpRequest(); 
+
+}
+else {console.log("NO XML HTTP REQUEST IN THIS PAGE")       }
+xmlhttp.onreadystatechange = function(){
+if (xmlhttp.readyState == 4 & xmlhttp.status ==200)
+console.log("On Ready State Change")
+}
+xmlhttp.open("GET","./NewFunctions.php?changeToFfOne="+oid,false);
+xmlhttp.send();
 
   }
+
 function myFunction() {
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("myInput");

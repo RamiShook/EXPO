@@ -31,7 +31,7 @@ global $rescounter;
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <!-- Title -->
-          <span class="mdl-layout-title">Products</span>
+          <span class="mdl-layout-title">Replacement/Return Requests For Multi Product Order</span>
 
       </header>
       <div class="mdl-layout__drawer">
@@ -39,10 +39,13 @@ global $rescounter;
       <span class="mdl-layout-title"><div id="meee"> <a href='index.php'> EXPO</a></div></span>
         <nav class="mdl-navigation">
         <?php if(isset($_SESSION['type']) && ($_SESSION['type']=="worker")){
-          include ('DefUserOptions.php');
-        }
+          include ('../DefUserOptions.php');
+        }        
            else if(isset($_SESSION['type']) && ($_SESSION['type']=="admin")){
-            include('AdminOptions.php');
+            include('../AdminOptions.php');
+          }else if(isset($_SESSION['type'])&& ($_SESSION['type']=="Fulfillment") ){
+            include('FulfOptions.php');
+        
           }else{
 echo"You Need To Login First!";
          }
@@ -69,7 +72,6 @@ require ("../config.php");
 
 function getClientName($order_id){
     include ("../config.php");
-    echo"THE FUCKINNNN ORDER ID IS ; ".$order_id;
     $q="SELECT client_FullName FROM clients,multiple_reserved where 
     multiple_reserve_id= '$order_id' AND clients.client_id = multiple_reserved.multiple_reserve_client_id";
   $result=mysqli_query($connection,$q)or die(mysqli_error($connection));
@@ -80,6 +82,24 @@ function getClientName($order_id){
   
 }
 
+function getClientPhone($order_id){
+  include ("../config.php");
+  $q="SELECT client_Phone FROM clients,multiple_reserved where 
+  multiple_reserve_id= '$order_id' AND clients.client_id = multiple_reserved.multiple_reserve_client_id";
+$result=mysqli_query($connection,$q)or die(mysqli_error($connection));
+
+$data = mysqli_fetch_assoc($result);
+return (  $data['client_Phone'] );
+
+}
+function getProductCode($product_id){
+
+  include("../config.php");
+  $q="SELECT product_Code FROM products WHERE product_id= '$product_id' ";
+  $result=mysqli_query($connection,$q)or die(mysqli_error($connection));
+  $data = mysqli_fetch_assoc($result);
+  return ( $data['product_Code'] );
+}
 
 
     $wkid=$_SESSION['uid'];
@@ -115,7 +135,7 @@ function getClientName($order_id){
                   <th>Return Qty</th>
                   <th>New Order Product</th>
                   <th>Qty</th>
-                  <th>Replacement/return</th>
+                  <th>Action</th>
 
 
 
@@ -147,10 +167,10 @@ $PriceCalc = 0;
               <tr id="tr'.$row['order_id'].'">
               <td>'.$row['order_id'].'</td>
 
-              <td id='.$row['old_product_id'].'>'.$row['old_product_id'].'</td>
+              <td id='.$row['old_product_id'].'>'.getProductCode($row['old_product_id']).'</td>
 
               <td>'.$row['old_product_id_qty'].'</td>
-              <td>'.$row['new_order_details_product_id'].'</td>
+              <td id='.$row['new_order_details_product_id'].'>'.getProductCode($row['new_order_details_product_id']).'</td>
               <td>'.$row['new_order_details_product_id_qty'].'</td>
              
               
@@ -160,9 +180,9 @@ $PriceCalc = 0;
                   if($data['counts'] == $rowcounter){
                       echo '</tr> <tr> <td colspan="5"> ';
                       echo "<u>The Above Order Is For The Client: </u><strong>".getClientName($TMP_order_id)."</strong>&nbsp; &nbsp;
-                       <u> Phone:</u><strong>KNSNCSJ</strong><br><u>The Total Price Is</u>:<strong> </strong> <br>Order Date:<strong>bnbn</strong><hr></td>";
+                       <u> Phone:</u><strong>".getClientPhone($TMP_order_id)."</strong><br><u>The Total Price Is</u>:<strong> </strong> <br>Order Date:<strong>bnbn</strong><hr></td>";
                       
-                   // echo ' <td> <input type="button" id="'.$mutiplereserveid.'" onclick="del(this.id,this)" value="Delete This Reservation"></input> 
+                    echo ' <td> <input type="button" id="'.$TMP_order_id.'" onclick="Sended('.$TMP_order_id.')" value="Done!"></input> ';
                    // <br> <br> <br><input type="button" id='.$row['multiple_reserve_id'].' onclick="edit(this.id,this)" value="Edit This Order" ></td></tr>
                     //';
                      // echo "<script>document.getElementById('rescc').innerHTML=$rescounter </script>";
@@ -184,11 +204,25 @@ $PriceCalc = 0;
 
 ?>
 <script language="javascript">
-                  function del(x,ths){
-                    btnid=x;
 
-                    cnf=confirm("This Will Delete This Reservation With All Product That Have !\nPlease Make Sure You Want To Delete The Reservation Id:"+btnid)
+                  function Sended(x){
+                    cnf=confirm("Are You Sure That You Send The New Order \nAnd Recieved The Old Product From The Client Id\nOrder Id: "+x);
                     if(!cnf) return;
+
+                    var xmlhttp;
+if(window.XMLHttpRequest)
+xmlhttp = new XMLHttpRequest(); 
+
+
+xmlhttp.onreadystatechange = function(){
+if (xmlhttp.readyState == 4 & xmlhttp.status ==200)
+console.log("On Ready State Change")
+}
+xmlhttp.open("GET","./FulfillmentFunctions.php?ReplacementDone=1&id="+x,false);
+xmlhttp.send();  
+
+                  }
+                 
 /*                     var xmlhttp;
 if(window.XMLHttpRequest)
 xmlhttp = new XMLHttpRequest(); 
@@ -200,9 +234,7 @@ console.log("On Ready State Change")
 }
 xmlhttp.open("GET","./Functions.php?delMultiRvId="+btnid,false);
 xmlhttp.send();   */
-removeRow(btnid,ths); 
-                    
-                  }
+
                   
   function removeRow(btnid,oButton) {
     oButton.value="This Reservation Was Deleted!";
