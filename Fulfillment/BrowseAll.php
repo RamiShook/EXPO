@@ -90,6 +90,7 @@ echo"You Need To Login First!";
                   <th>Product Code</th>
                   <th>Product Name</th>
                   <th>Size</th>
+                  <th>RealSize</th>
                   <th>Color</th>
                   <th>Av.Quantity</th>
                   <th>Price</th>
@@ -108,6 +109,7 @@ echo"You Need To Login First!";
 
                   <td>'.$row['Product_Name'].'</td>
                   <td>'.$row['product_Size'].'</td>
+                  <td>'.$row['Real_Size'].'</td>
                   <td>'.$row['product_Color'].'</td>
                   <td>'.$row['product_Quantity'].'</td>
                   <td>'.$row['product_Price'].'</td>

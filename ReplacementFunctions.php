@@ -50,4 +50,28 @@ mysqli_query($connection,$qDecrease)or die(mysqli_error($connection));
 
 
 
+if(isset($_GET['ReturnOID'])){
+    $odid=$_GET['ReturnOID'];
+    $rpid=$_GET['OPID'];
+    $qty = $_GET['Qty'];
+    //inserting the data in the change_order table
+    $q="INSERT INTO change_order(order_id,old_product_id,old_product_id_qty)VALUES('$odid','$rpid','$qty')";
+    mysqli_query($connection,$q)or die(mysqli_error($connection));
+
+    //get the change id
+    $q1="SELECT change_id FROM change_order WHERE order_id='$odid' AND old_product_id='$rpid' AND old_product_id_qty='$qty' ORDER BY change_id DESC";
+$result1=mysqli_query($connection,$q1)or die(mysqli_error($connection));
+$data1 = mysqli_fetch_assoc($result1);
+$ChangeId=$data1['change_id'];
+
+
+// insertig 0 
+$q3="INSERT INTO change_details(change_id,new_order_details_product_id,new_order_details_product_id_qty,order_id)VALUES('$ChangeId',0,0,'$odid')";
+mysqli_query($connection,$q3)or die(mysqli_error($connection));
+    
+
+}
+
+
+
 ?>

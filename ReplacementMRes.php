@@ -144,7 +144,7 @@ $PriceCalc = 0;
                   <td>'.$row['Product_Name'].'</td>
                   <td>'.$row['quantity'].'</td>
                   <td>'.$row['price'].'</td>
-                  <td> <input type="button" value="Return!" onlick="ReturnProduct("'.$row['multiple_reserve_id'].','.$row['multiple_reserve_product_id'].',\''.$TEMPPCODE.'\','.$row['quantity'].')"></input> &nbsp &nbsp
+                  <td> <input type="button" value="Return!" onclick="ReturnProduct('.$row['multiple_reserve_id'].','.$row['multiple_reserve_product_id'].',\''.$TEMPPCODE.'\','.$row['quantity'].')"></input> &nbsp &nbsp
                         <input type="button" resid='.$row['multiple_reserve_id'].' 
                         respid='.$row['multiple_reserve_product_id'].' value="Replacement" onclick="Replacement('.$row['multiple_reserve_id'].','.$row['multiple_reserve_product_id'].',\''.$TEMPPCODE.'\','.$row['quantity'].')"> </input>
                         
@@ -209,6 +209,7 @@ removeRow(btnid,ths);
                   </script>
 <script>
 function ReturnProduct(rid,rpid,pcode,qt){
+  console.log("getiing in the function")
   var xmlhttp;
 if(window.XMLHttpRequest)
 xmlhttp = new XMLHttpRequest(); 
@@ -218,7 +219,7 @@ xmlhttp.onreadystatechange = function(){
 if (xmlhttp.readyState == 4 & xmlhttp.status ==200)
 console.log("On Ready State Change")
 }
-xmlhttp.open("GET","./NewFunctions.php?ReturnOID="+rid+"&OPID="+rpid+"Opcode="+pcode+"Qty="+qt+"",false);
+xmlhttp.open("GET","./ReplacementFunctions.php?ReturnOID="+rid+"&OPID="+rpid+"Opcode="+pcode+"&Qty="+qt+"",false);
 xmlhttp.send();
 
 

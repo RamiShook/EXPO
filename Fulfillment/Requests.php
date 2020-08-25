@@ -92,6 +92,16 @@ $data = mysqli_fetch_assoc($result);
 return (  $data['client_Phone'] );
 
 }
+
+function getoDate($order_id){
+  include ("../config.php");
+  $q="SELECT reserve_date FROM multiple_reserved where 
+  multiple_reserve_id= '$order_id'";
+$result=mysqli_query($connection,$q)or die(mysqli_error($connection));
+
+$data = mysqli_fetch_assoc($result);
+return (  $data['reserve_date'] );
+}
 function getProductCode($product_id){
 
   include("../config.php");
@@ -109,7 +119,7 @@ function getProductCode($product_id){
       change_details.new_order_details_product_id_qty,
        change_details.change_details_id
         FROM change_details ,change_order 
-        WHERE change_order.change_id = change_details.change_id")or die("error");
+        WHERE change_order.change_id = change_details.change_id ORDER BY change_details.order_id desc")or die("error");
      $t = mysqli_num_rows($q);
 
      $record_count = mysqli_num_rows($q);
@@ -180,7 +190,7 @@ $PriceCalc = 0;
                   if($data['counts'] == $rowcounter){
                       echo '</tr> <tr> <td colspan="5"> ';
                       echo "<u>The Above Order Is For The Client: </u><strong>".getClientName($TMP_order_id)."</strong>&nbsp; &nbsp;
-                       <u> Phone:</u><strong>".getClientPhone($TMP_order_id)."</strong><br><u>The Total Price Is</u>:<strong> </strong> <br>Order Date:<strong>bnbn</strong><hr></td>";
+                       <u> Phone:</u><strong>".getClientPhone($TMP_order_id)."</strong><br><u>The Total Price Is</u>:<strong> </strong> <br>Order Date:<strong>".getoDate($TMP_order_id)."</strong><hr></td>";
                       
                     echo ' <td> <input type="button" id="'.$TMP_order_id.'" onclick="Sended('.$TMP_order_id.')" value="Done!"></input> ';
                    // <br> <br> <br><input type="button" id='.$row['multiple_reserve_id'].' onclick="edit(this.id,this)" value="Edit This Order" ></td></tr>

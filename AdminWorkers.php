@@ -60,7 +60,7 @@ if ($_SESSION['type']!="admin"){
 		<div align="center">
     <?PHP
     include("./config.php");
-     $q = mysqli_query($connection, "SELECT * FROM workers WHERE worker_Type='worker'")or die(mysqli_error($connection));
+     $q = mysqli_query($connection, "SELECT * FROM workers WHERE worker_Type='worker' OR worker_Type='Fulfillment'")or die(mysqli_error($connection));
      $t = mysqli_num_rows($q);
 
      $record_count = mysqli_num_rows($q);
@@ -78,6 +78,7 @@ if ($_SESSION['type']!="admin"){
                   <th>User Password</th>
                   <th>User Address</th>
                   <th>User Phone</th>
+                  <th>User Type</th>
                   
                 </tr>
               </thead>
@@ -90,6 +91,7 @@ if ($_SESSION['type']!="admin"){
                   <td>'.$row['worker_Pass'].'</td>
                   <td>'.$row['worker_Address'].'</td>
                   <td>'.$row['worker_Phone'].'</td>
+                  <td>'.$row['worker_Type'].'</td>
                   <td>
       <a href="AdminWorker.php?id='.$row['worker_id'].'"><center><span class="btn label-danger"><font color=white>Edit/Delete</font></center></span></a>
       </td><td>'; }

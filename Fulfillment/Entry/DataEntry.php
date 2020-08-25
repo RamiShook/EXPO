@@ -117,8 +117,12 @@ Insert New Product:
 <input type="radio" id="Custom" name="sz" Value="Custom"> </input> <label for="Custom">Custom Sizes</lable>
 &nbsp
 &nbsp
-&nbsp
+<input type="radio" id="Real" name="sz" Value="Real"> </input> <label for="Real">Real Size</lable>
 
+&nbsp
+<div id="Sizes">
+<input type="checkbox" id="Size35"  value="35" name="Size" checked disabled></input>
+<label for="Size35"> 35</label>&nbsp &nbsp 
 <input type="checkbox" id="Size36"  value="36" name="Size" checked disabled></input>
 <label for="Size36"> 36</label>&nbsp &nbsp 
 <input type="checkbox" id="Size37"  value="37" name="Size" checked disabled>
@@ -131,6 +135,41 @@ Insert New Product:
 <label for="Size40"> 40</label>&nbsp &nbsp 
 <input type="checkbox" id="Size41"  value="41" name="Size" checked disabled>
 <label for="Size41"> 41</label>&nbsp &nbsp 
+<input type="checkbox" id="Size42"  value="42" name="Size" checked disabled>
+<label for="Size42"> 42</label>&nbsp &nbsp 
+</div>
+
+
+
+
+
+<div id="RealSizes" hidden="true" class="mdl-cell mdl-cell--4-col" style="text-align: center; vertical-align: middle;">
+Fill The Table Gradually!.
+<table class="table table-bordered table-striped" align="center">
+<th align="center" style="text-align: center; vertical-align: middle;">Real Size</th>
+<th align="center" style="text-align: center; vertical-align: middle;">Generated Code</th>
+
+<tr> <td > <input type="text"  id="firstRow" Value="0.0" onblur="GenerateForCustom(this.id)"></input> </td> 
+     <td> <input type="text" disabled="true" id="firstRowC"></input></td> </tr>
+
+
+<tr> <td > <input type="text"  id="secondRow" Value="" onblur="GenerateForCustom(this.id)"></input> </td>
+     <td> <input type="text" disabled="true" id="secondRowC"></input></td>  </tr>
+
+
+<tr> <td > <input type="text"  id="thirdRow" Value="" onblur="GenerateForCustom(this.id)"></input> </td>
+     <td> <input type="text" disabled="true" id="thirdRowC"></input></td> </tr>
+
+<tr> <td > <input type="text"  id="fourthRow" Value="" onblur="GenerateForCustom(this.id)"></input> </td> 
+     <td> <input type="text" disabled="true" id="fourthRowC"></input></td> </tr>
+
+<tr> <td > <input type="text"  id="fifthRow" Value="" onblur="GenerateForCustom(this.id)"></input> </td> 
+     <td> <input type="text" disabled="true" id="fifthRowC"></input></td> </tr>
+
+
+</table>
+
+</div>
 <br>
 <br>
 <lable for="Qty">Quantity:</label>
@@ -165,6 +204,7 @@ Added Products:
 <th>Quantity</th>
 <th>Price</th>
 <th>Note</th>
+<th>Real Size</th>
 
 
 </table>
@@ -198,8 +238,8 @@ xmlhttp = new XMLHttpRequest();
     if (document.getElementById("All").checked==true){
        
        
-        for( i=36; i<42; i++ ){
-            ShowEntered(Gcode,Pname,i,Qty,Prc,Not)
+        for( i=35; i<43; i++ ){
+            ShowEntered(Gcode,Pname,i,Qty,Prc,Not,0)
             
 xmlhttp.onreadystatechange = function(){
 if (xmlhttp.readyState ==4 & xmlhttp.status ==200)
@@ -218,7 +258,7 @@ xmlhttp.open("GET","./insData.php?pcode="+Gcode+i+"&pname="+Pname+"&psize="+i+"&
 xmlhttp.send();
         }
 
-    }else{
+    }else if(document.getElementById("Custom").checked==true){
         const checkboxes = document.querySelectorAll('input[name="Size"]:checked');
         let Sizes = [];
             checkboxes.forEach((checkbox) => {
@@ -226,7 +266,7 @@ xmlhttp.send();
             });
             console.log(Sizes)
             for( i=0; i<Sizes.length; i++ ){
-                        ShowEntered(Gcode+Sizes[i],Pname,Sizes[i],Qty,Prc,Not)
+                        ShowEntered(Gcode+Sizes[i],Pname,Sizes[i],Qty,Prc,Not,0)
                         xmlhttp.onreadystatechange = function(){
 if (xmlhttp.readyState ==4 & xmlhttp.status ==200)
 
@@ -244,13 +284,85 @@ xmlhttp.open("GET","./insData.php?pcode="+Gcode+Sizes[i]+"&pname="+Pname+"&psize
 xmlhttp.send();
                     }
                     
+                }else{
+                   
+/*
+ rowCounter=0
+if(document.getElementById("firstRowC").value == ""){
+    alert("Please Start Filling The Custom Sizes Table From The First Row!");
+    return;
+}else if(document.getElementById("secondRowC").value!=""){
+rowCounter++;
+}else if(document.getElementById("thirdRowC").value!=""){
+rowCounter++;
+}else if(document.getElementById("fourthRowC").value!=""){
+rowCounter++;
+}else if(document.getElementById("fifthRowC").value!=""){
+rowCounter++;
+}
+alert(rowCounter)
+*/
+for(let i=1;i<6;i++){
+    if(i==1){
+        ProductCode=document.getElementById("firstRowC").value;
+        PureSize = Math.round(document.getElementById("firstRow").value);
+        RealSize = document.getElementById("firstRow").value
+
+    }else if(i==2){
+        ProductCode=document.getElementById("secondRowC").value;
+        PureSize = Math.round(document.getElementById("secondRow").value);
+        RealSize = document.getElementById("secondRow").value
+
+        if(ProductCode =="") break;
+    }else if(i==3){
+        ProductCode=document.getElementById("thirdRowC").value;
+        PureSize = Math.round(document.getElementById("thirdRow").value);
+        RealSize = document.getElementById("thirdRow").value
+
+        if(ProductCode =="") break;
+
+    }else if(i==4){
+        ProductCode=document.getElementById("fourthRowC").value;
+        PureSize = Math.round(document.getElementById("fourthRow").value);
+        RealSize = document.getElementById("fourthRow").value
+
+        if(ProductCode =="") break;
+
+    }else if(i==5){
+        ProductCode=document.getElementById("fifthRowC").value;
+        PureSize = Math.round(document.getElementById("fifthRow").value);
+        RealSize = document.getElementById("fifthRow").value
+        if(ProductCode =="") break;
+    }
+    console.log("THE I is: "+i);
+    ShowEntered(ProductCode,Pname,PureSize,Qty,Prc,Not,RealSize)
+                        xmlhttp.onreadystatechange = function(){
+if (xmlhttp.readyState ==4 & xmlhttp.status ==200)
+
+        if (xmlhttp.responseText.length==3){
+            console.log("Added")
+
+        }
+        else {
+            console.log(xmlhttp.responseText.length)
+            console.log("SomeThing Happened!")
+            
+        }
+}
+xmlhttp.open("GET","./insData.php?pcode="+ProductCode+"&pname="+Pname+"&psize="+PureSize+"&pquantity="+Qty+"&pprice="+Prc+"&pnote="+Not+"&pcolor="+Clr+"&RealSize="+RealSize,true);
+xmlhttp.send();
+                    }
+
+
+
+
                 }
 
 
 }
 
 
-function ShowEntered(SEcode,SPname,SSize,SQty,SPrc,SNot){
+function ShowEntered(SEcode,SPname,SSize,SQty,SPrc,SNot,SPSize){
     
         var empTab = document.getElementById('Pds');
 
@@ -258,7 +370,7 @@ function ShowEntered(SEcode,SPname,SSize,SQty,SPrc,SNot){
         var tr = empTab.insertRow(rowCnt); // the table row.
         tr = empTab.insertRow(rowCnt);
 
-        for (var c = 0; c < 6; c++) {
+        for (var c = 0; c < 7; c++) {
             var td = document.createElement('td'); // table definition.
             td = tr.insertCell(c);
 
@@ -335,6 +447,18 @@ function ShowEntered(SEcode,SPname,SSize,SQty,SPrc,SNot){
 
                 td.appendChild(button);
             }
+            else if(c== 6) {
+                 var button = document.createElement('input');
+
+                // set input attributes.
+                button.setAttribute('type', 'Text');
+                button.setAttribute('value',SPSize);
+                button.setAttribute('disabled','true');
+
+                // add button's 'onclick' event.
+
+                td.appendChild(button);
+            }
         }
     }
 
@@ -358,15 +482,23 @@ alert("uploaded");
 if(e.target.getAttribute('name')=="sz")
 if(e.target.value=="All"){
     $(':checkbox').each(function() {
+        document.getElementById("Sizes").hidden=false;
+
            this.checked = true;  
            this.disabled= true;                     
                       
        });
-   } else {
+   } else if(e.target.value=="Custom") {
       $(':checkbox').each(function() {
+        document.getElementById("Sizes").hidden=false;
+
            this.checked = false;   
            this.disabled= false;                     
        });
+}else{
+    document.getElementById("Sizes").hidden=true;
+    document.getElementById("RealSizes").hidden=false;
+
 }
 })
 
@@ -391,6 +523,32 @@ document.getElementById("ToPcode").innerHTML="<b>Generated Code: "+ Gcode+"</b>"
 
 
     
+}
+function GenerateForCustom(thsid){
+    if(document.getElementById(thsid).value==""){
+        alert("Please Fill The Size!");
+        return;
+    }
+ // entered code
+ Ecode=document.getElementById("Pcode").value;
+ //number after point
+
+    // choosed color
+    Ecolor= document.getElementById("Pcolor").value;
+    //Generated Code
+    if(Ecolor==""){
+alert("Please Choose Color");
+return;
+    }else if(Ecolor=="Black")
+Gcode=Ecode+"BLK"+Math.round(document.getElementById(thsid).value);
+else if(Ecolor=="White")
+Gcode=Ecode+"WHT"+Math.round(document.getElementById(thsid).value);
+else if(Ecolor=="Red")
+Gcode=Ecode+"RED"+Math.round(document.getElementById(thsid).value);
+
+document.getElementById(thsid+'C').value=""+Gcode+"F"+document.getElementById(thsid).value;
+
+
 }
 </script>
 	
